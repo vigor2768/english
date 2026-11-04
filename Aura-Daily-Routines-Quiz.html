@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aura English Centre – Daily Routines Quiz</title>
+<style>
+:root{--green:#16834b;--green2:#0c6237;--orange:#ff8a1f;--yellow:#ffd45b;--ink:#183b2b;--bg:#f0fbf3;--blue:#eaf6ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 5%,#fff1c7 0,transparent 28%),linear-gradient(135deg,#eaf8ef,#f8fcf8);font-family:Arial,sans-serif;color:var(--ink);padding:20px}
+.wrap{max-width:850px;margin:auto;background:white;border-radius:24px;box-shadow:0 12px 35px #164d2b1c;overflow:hidden}
+header{background:linear-gradient(115deg,var(--green2),var(--green));color:white;padding:28px;text-align:center}
+h1{margin:0 0 8px;font-size:clamp(24px,5vw,36px)}header p{margin:0}
+main{padding:24px}label{font-weight:700;display:block;margin:12px 0 6px}input{width:100%;padding:13px;border:2px solid #d8eadf;border-radius:12px;font-size:16px}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0 8px}.pill{background:#fff3e5;color:#a64d00;padding:8px 12px;border-radius:30px;font-weight:700}
+.bar{height:10px;background:#e6f0e9;border-radius:20px;overflow:hidden}.fill{height:100%;width:0;background:var(--orange);transition:width .2s}
+.q{border:1px solid #e1eee5;border-radius:16px;padding:18px;margin:16px 0}.q h3{margin:0 0 14px;font-size:18px}.opts{display:grid;gap:9px}.opt{display:flex;align-items:center;gap:10px;background:#f5faf6;border:2px solid transparent;border-radius:12px;padding:11px;cursor:pointer}.opt:hover{border-color:#a7d6b7}.opt input{width:auto;accent-color:var(--green)}
+button{background:var(--orange);border:0;color:#38200a;padding:14px 22px;border-radius:12px;font-size:16px;font-weight:800;cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}
+#result{display:none;text-align:center;padding:22px;background:#f2fbf4;border-radius:16px;margin-top:20px}#score{font-size:42px;color:var(--green);font-weight:800}.review{text-align:left;margin-top:20px}.correct{color:#087b3b}.wrong{color:#c33}
+small{color:#527260}.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:18px}
+</style></head><body><div class="wrap">
+<header><h1>🌿 Aura English Centre</h1><p>DAILY ROUTINES – ENGLISH QUIZ</p></header>
+<main>
+<div id="intro"><p>Read each question carefully and choose the best answer. There are 20 questions.</p>
+<label for="student">Student's name</label><input id="student" placeholder="Enter your name">
+<div class="top"><span class="pill">20 questions</span><span class="pill">One attempt per device</span></div>
+</div>
+<div class="top"><strong id="progressText">Question 1 of 20</strong><span class="pill" id="answered">0/20 answered</span></div><div class="bar"><div class="fill" id="progress"></div></div>
+<div id="quiz"></div>
+<div class="actions"><button id="submit">Submit my answers</button></div>
+<div id="result"><h2>🎉 Quiz completed!</h2><div id="score"></div><p id="message"></p><div class="review" id="review"></div><p><strong>Please take a screenshot of your result and send it to your teacher.</strong></p></div>
+</main></div>
+<script>
+const questions=[
+["What time do you usually ___ up?","get","gets","getting","got",0],
+["I ___ my teeth every morning.","brush","brushes","brushing","brushed",0],
+["She ___ to school at 7 o'clock.","go","goes","going","gone",1],
+["He ___ dressed before breakfast.","get","gets","getting","got",1],
+["What do you do after you wake up?","Go to bed","Have a shower","Go to sleep","Have dinner",1],
+["They ___ homework in the evening.","does","do","doing","did",1],
+["My brother ___ TV after dinner.","watch","watching","watches","watched",2],
+["I go to bed ___ 9 p.m.","in","on","at","by",2],
+["Which day comes after Tuesday?","Monday","Wednesday","Thursday","Friday",1],
+["Which day comes before Sunday?","Saturday","Monday","Friday","Tuesday",0],
+["We have English ___ Monday.","at","in","on","to",2],
+["She ___ gets up early. (100% of the time)","never","sometimes","usually","always",3],
+["He is late. He is ___ on time.","always","never","every day","usually",1],
+["I ___ have breakfast at 6:30. (not every day)","sometimes","always","never","every",0],
+["My parents ___ coffee in the morning.","drinks","drink","drinking","is drink",1],
+["___ your sister walk to school?","Do","Does","Is","Are",1],
+["What time ___ they go to bed?","does","is","do","are",2],
+["Tom doesn't ___ to school on Sundays.","goes","going","go","went",2],
+["Choose the correct sentence.","She brush her hair.","She brushes her hair.","She brushing her hair.","She brushs her hair.",1],
+["Which phrase means 'cởi quần áo'?","put on","take off","get dressed","get undressed",3]
+];
+const quiz=document.getElementById('quiz');let submitted=false;
+function render(){quiz.innerHTML=questions.map((q,i)=>'<section class="q"><h3>'+(i+1)+'. '+q[0]+'</h3><div class="opts">'+q.slice(1,5).map((o,j)=>'<label class="opt"><input type="radio" name="q'+i+'" value="'+j+'"> '+String.fromCharCode(65+j)+'. '+o+'</label>').join('')+'</div></section>').join('');quiz.addEventListener('change',updateProgress)}
+function updateProgress(){const n=questions.filter((_,i)=>document.querySelector('input[name="q'+i+'"]:checked')).length;document.getElementById('answered').textContent=n+'/20 answered';document.getElementById('progress').style.width=(n/20*100)+'%';document.getElementById('progressText').textContent='Answered '+n+' of 20'}
+document.getElementById('submit').onclick=()=>{if(submitted)return;const name=document.getElementById('student').value.trim();if(!name){alert('Please enter your name first.');document.getElementById('student').focus();return}const answers=questions.map((_,i)=>{const e=document.querySelector('input[name="q'+i+'"]:checked');return e?Number(e.value):-1});if(answers.includes(-1)){alert('Please answer all 20 questions before submitting.');return}submitted=true;let score=0;const review=questions.map((q,i)=>{const ok=answers[i]===q[5];if(ok)score++;return '<p><strong>'+(i+1)+'. '+q[0]+'</strong><br><span class="'+(ok?'correct':'wrong')+'">'+(ok?'✓ Correct':'✗ Your answer: '+q[answers[i]+1])+'</span>'+(ok?'':'<br><small>Correct answer: '+q[q[5]+1]+'</small>')+'</p>'}).join('');document.getElementById('score').textContent=score+'/20 ('+Math.round(score/20*100)+'%)';document.getElementById('message').textContent='Great effort, '+name+'!';document.getElementById('review').innerHTML=review;document.getElementById('result').style.display='block';document.getElementById('submit').disabled=true;document.querySelectorAll('input').forEach(e=>e.disabled=true);document.getElementById('result').scrollIntoView({behavior:'smooth'})};
+render();
+</script></body></html>
