@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Aura English Centre – Daily Routines Quiz</title>
+<style>
+:root{--green:#16834b;--green2:#0c6237;--orange:#ff8a1f;--yellow:#ffd45b;--ink:#183b2b;--bg:#f0fbf3;--blue:#eaf6ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 10% 5%,#fff1c7 0,transparent 24%),linear-gradient(135deg,#effbf2,#eaf6ff);font-family:Arial,sans-serif;color:var(--ink)}
+header{background:linear-gradient(120deg,#08783e,#22a45e 65%,#ff9b2f);color:white;padding:28px 18px 25px;text-align:center;border-bottom:7px solid var(--yellow);box-shadow:0 5px 18px #174a3025}
+.brand{font-size:15px;letter-spacing:3px;font-weight:800;color:#fff4bd;margin-bottom:9px}
+header h1{margin:0 0 8px;font-size:clamp(27px,5vw,40px);text-shadow:0 2px 0 #07552d}
+header p{margin:5px 0;font-size:15px}
+main{max-width:850px;margin:25px auto;padding:0 14px}
+.panel{background:white;border:2px solid #d8f0df;border-radius:20px;padding:clamp(18px,4vw,30px);box-shadow:0 8px 24px #164b2b16}
+h2{color:var(--green2);margin-top:0}
+label{display:block;font-weight:bold;margin:12px 0 6px}
+input[type=text]{width:100%;padding:14px;border:2px solid #b9dec6;border-radius:12px;font-size:16px}
+input[type=text]:focus{outline:3px solid #ffdc8a;border-color:var(--orange)}
+button{background:linear-gradient(100deg,#ff9a22,#ff6e18);color:white;border:0;border-radius:12px;padding:14px 23px;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 0 #d85b13}
+button:active{transform:translateY(2px);box-shadow:0 2px 0 #d85b13}
+button:disabled{opacity:.5;cursor:not-allowed}
+.q{padding:18px 0;border-bottom:1px dashed #c9e4d1}
+.q h3{font-size:18px;line-height:1.45;margin:0 0 12px;color:#155b36}
+.opt{display:block;border:2px solid #e0eee4;border-radius:11px;padding:11px 13px;margin:9px 0;cursor:pointer;background:#fbfffc;transition:.15s}
+.opt:hover{border-color:#f5a23d;background:#fff9ed}
+.opt input{margin-right:9px;accent-color:var(--green);transform:scale(1.15)}
+.small{color:#607267;font-size:14px;line-height:1.5}
+.hidden{display:none}
+.progress{height:11px;background:#e4ece7;border-radius:99px;overflow:hidden;margin:14px 0}
+.bar{height:100%;background:linear-gradient(90deg,#22a45e,#ff9a22);width:0;transition:width .2s}
+.result{font-size:27px;font-weight:bold;color:var(--green)}
+.warning{background:#fff7df;border-left:5px solid var(--orange);padding:13px;border-radius:10px;line-height:1.5}
+footer{text-align:center;color:#547261;padding:22px;font-size:13px}
+</style></head><body>
+<header><div class="brand">AURA ENGLISH CENTER</div><h1>🌟 DAILY ROUTINES CHALLENGE 🌟</h1><p>Ôn tập từ vựng • Thứ trong tuần • Thì hiện tại đơn • Trạng từ chỉ tần suất</p><p><b>Học vui – Nhớ lâu – Tự tin sử dụng tiếng Anh!</b></p></header>
+<main><section id="intro" class="panel"><h2>🎉 Chào mừng các bạn đến với bài ôn tập!</h2>
+<p><b>Các con hãy đọc kỹ hướng dẫn trước khi bắt đầu nhé!</b></p>
+<div class="warning"><b>📌 HƯỚNG DẪN LÀM BÀI</b><br>
+1. Nhập <b>họ và tên</b> của con vào ô bên dưới.<br>
+2. Bấm <b>“Bắt đầu làm bài”</b> để vào phần câu hỏi.<br>
+3. Đọc kỹ từng câu và chọn <b>một đáp án đúng nhất</b> (A, B hoặc C).<br>
+4. Bài kiểm tra có <b>20 câu hỏi</b>. Hãy cố gắng hoàn thành tất cả các câu nhé!<br>
+5. Sau khi làm xong, bấm <b>“Nộp bài”</b> để xem điểm và đáp án.<br>
+6. Sau khi nộp bài và xem điểm, <b>hãy chụp ảnh màn hình kết quả rồi gửi cho cô Quyên để nhận phần thưởng nhé!</b> 🎁<br>
+7. Con có thể làm lại bài và nộp bài nhiều lần để luyện tập, củng cố kiến thức nhé!
+</div>
+<label for="student">✏️ Họ và tên của con:</label><input id="student" type="text" maxlength="70" placeholder="Ví dụ: Nguyễn Minh Anh">
+<p class="small">Chúc các con bình tĩnh, tự tin và đạt kết quả thật tốt! 💚</p><button id="start">🚀 Bắt đầu làm bài</button><p id="introErr" class="small" style="color:#b33"></p></section>
+<section id="quiz" class="panel hidden"><div><b id="studentLabel"></b><span style="float:right" id="count"></span></div><p class="small">Chọn một đáp án cho mỗi câu. Nhớ kiểm tra lại trước khi nộp bài nhé!</p><div class="progress"><div id="bar" class="bar"></div></div><form id="quizForm"><div id="questions"></div><button type="submit">📨 Nộp bài</button></form></section>
+<section id="result" class="panel hidden"><h2>🏆 KẾT QUẢ BÀI LÀM</h2><p id="resultName"></p><p class="result" id="score"></p><p id="feedback"></p><div id="review"></div><button type="button" id="retry">🔄 Làm lại bài</button><p class="warning"><b>🎁 Nhận thưởng:</b> Con hãy chụp ảnh màn hình có hiển thị điểm số và gửi cho <b>cô Quyên</b> để nhận phần thưởng nhé!</p><p class="small">Cảm ơn con đã tham gia thử thách của Aura English Center! 💚</p></section></main>
+<footer><b>AURA ENGLISH CENTER</b> • Learn English every day! 🌱</footer>
+<script>
+// Clear the legacy one-attempt lock saved by older quiz versions.
+localStorage.removeItem('aura_daily_routines_attempt_v1');
+const QUESTIONS = [{"q": "Choose the correct phrase: I ______ at 6:30 every morning.", "opts": ["get up", "go to bed", "take off"], "a": 0, "ex": "get up"}, {"q": "Choose the correct phrase: I ______ the bus to school.", "opts": ["do homework", "catch", "have a shower"], "a": 1, "ex": "catch the bus"}, {"q": "Choose the correct phrase: I ______ after school.", "opts": ["do homework", "get undressed", "wake up"], "a": 0, "ex": "do homework"}, {"q": "Choose the correct phrase: I ______ my hands before meals.", "opts": ["put on", "wash", "catch the bus"], "a": 1, "ex": "wash"}, {"q": "Choose the correct phrase: I ______ at night before sleeping.", "opts": ["go to bed", "get up", "put on"], "a": 0, "ex": "go to bed"}, {"q": "Complete the sentence: I brush my teeth every morning. I ______ brush my teeth.", "opts": ["always", "sometimes", "never"], "a": 0, "ex": "always"}, {"q": "Choose the best word: My brother ______ plays football after school. He plays on some days, but not every day.", "opts": ["never", "sometimes", "always"], "a": 1, "ex": "sometimes"}, {"q": "Complete the sentence: Anna ______ gets up late. She gets up early every day.", "opts": ["always", "never", "sometimes"], "a": 1, "ex": "never"}, {"q": "Choose the correct sentence.", "opts": ["We every day go to school.", "We go to school every day.", "Every day we goes to school."], "a": 1, "ex": "We go to school every day."}, {"q": "What time is 7:00?", "opts": ["six o’clock", "seven o’clock", "eight o’clock"], "a": 1, "ex": "seven o’clock"}, {"q": "What day comes after Tuesday?", "opts": ["Monday", "Wednesday", "Thursday"], "a": 1, "ex": "Wednesday"}, {"q": "What day comes before Sunday?", "opts": ["Friday", "Monday", "Saturday"], "a": 2, "ex": "Saturday"}, {"q": "Choose the correct sentence.", "opts": ["She get up at seven.", "She gets up at seven.", "She getting up at seven."], "a": 1, "ex": "She gets up at seven."}, {"q": "Choose the correct sentence.", "opts": ["He catchs the bus.", "He catch the bus.", "He catches the bus."], "a": 2, "ex": "He catches the bus."}, {"q": "Choose the correct sentence.", "opts": ["They goes to school.", "They go to school.", "They going to school."], "a": 1, "ex": "They go to school."}, {"q": "Complete: I ______ do my homework after school. (100% of the time)", "opts": ["never", "always", "sometimes"], "a": 1, "ex": "always"}, {"q": "Complete: I ______ eat ice cream. (0% of the time)", "opts": ["always", "sometimes", "never"], "a": 2, "ex": "never"}, {"q": "Choose the correct question.", "opts": ["How often do you wash your hands?", "How often does you wash your hands?", "How often you do wash your hands?"], "a": 0, "ex": "How often do you wash your hands?"}, {"q": "Complete: ______ she get dressed at seven?", "opts": ["Do", "Does", "Is"], "a": 1, "ex": "Does"}, {"q": "Choose the correct answer: How often do you go to school? — I go to school ______.", "opts": ["every day", "never am", "does"], "a": 0, "ex": "every day"}];
+const intro=document.getElementById('intro'), quiz=document.getElementById('quiz'), result=document.getElementById('result');
+document.getElementById('start').addEventListener('click',()=>{
+ const name=document.getElementById('student').value.trim();
+ if(!name){document.getElementById('introErr').textContent='Please enter your name.';return;}
+ document.getElementById('studentLabel').textContent='Student: '+name;
+ intro.classList.add('hidden');quiz.classList.remove('hidden');render();
+});
+function render(){
+ const wrap=document.getElementById('questions');
+ wrap.innerHTML=QUESTIONS.map((q,i)=>`<div class="q"><h3>${i+1}. ${q.q}</h3>${q.opts.map((o,j)=>`<label class="opt"><input type="radio" name="q${i}" value="${j}">${o}</label>`).join('')}</div>`).join('');
+ document.getElementById('count').textContent=QUESTIONS.length+' câu hỏi';
+}
+function updateProgress(){
+ const n=QUESTIONS.filter((q,i)=>document.querySelector(`input[name="q${i}"]:checked`)).length;
+ document.getElementById('bar').style.width=(n/QUESTIONS.length*100)+'%';
+}
+document.getElementById('questions').addEventListener('change',updateProgress);
+document.getElementById('quizForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const unanswered=QUESTIONS.findIndex((q,i)=>!document.querySelector(`input[name="q${i}"]:checked`));
+ if(unanswered!==-1){alert('Con chưa trả lời câu '+(unanswered+1)+'. Hãy hoàn thành tất cả câu hỏi nhé!');return;}
+ const name=document.getElementById('studentLabel').textContent.replace('Student: ','');
+ let score=0, details=[];
+ QUESTIONS.forEach((q,i)=>{
+  const chosen=Number(document.querySelector(`input[name="q${i}"]:checked`).value);
+  const ok=chosen===q.a;if(ok)score++;
+  details.push(`<p>${i+1}. ${ok?'✓ Chính xác!':'✗ Đáp án đúng: '+q.ex}</p>`);
+ });
+ quiz.classList.add('hidden');result.classList.remove('hidden');
+ document.getElementById('resultName').textContent='Student: '+name;
+ document.getElementById('score').textContent=score+' / '+QUESTIONS.length+' ('+Math.round(score/QUESTIONS.length*100)+'%)';
+ document.getElementById('feedback').textContent=score>=18?'Xuất sắc! Con đã nắm bài rất tốt! 🌟':score>=14?'Làm tốt lắm! Hãy tiếp tục luyện tập nhé! 👏':'Cố gắng thêm nhé! Con hãy xem lại đáp án và luyện tập thêm. 💪';
+ document.getElementById('review').innerHTML='<h3>Đáp án tham khảo</h3>'+details.join('');
+});
+document.getElementById('retry').addEventListener('click',()=>{
+ document.getElementById('quizForm').reset();
+ document.getElementById('bar').style.width='0%';
+ result.classList.add('hidden');
+ quiz.classList.remove('hidden');
+ render();
+});
+
+</script></body></html>
